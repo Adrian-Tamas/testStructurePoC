@@ -54,7 +54,7 @@ def pytest_sessionfinish(session, exitstatus):
     email_client = EmailClient(email_address="",
                                email_password="",
                                smtp_server="",
-                               port="")
+                               port="465") #587 for StarTTLS
     with open("report.html", "rb") as email_html_content:
         email_client.send_email(to="",
                                 subject="Run summary",

@@ -45,12 +45,15 @@ class EmailClient:
             msg.attach(part)
 
             # send email
-            with smtplib.SMTP_SSL(self.smtp_server, self.port) as smtp:
-                smtp.login(self.email_address, self.email_password)
+            with smtplib.SMTP(self.smtp_server) as smtp:
+                if self.email_password:
+                    smtp.login(self.email_address, self.email_password)
                 smtp.sendmail(
                     self.email_address, to, msg.as_string()
                 )
             return True
         except Exception as e:
-            logging.error("Problem during send email" + str(e))
+            print("=============")
+            print("Problem during send email" + str(e))
+            print("=============")
         return False
