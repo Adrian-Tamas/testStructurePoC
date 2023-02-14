@@ -3,6 +3,7 @@ import os
 import pytest
 from email_helper.email_client import EmailClient
 from jinja2 import Environment, FileSystemLoader
+from datetime import datetime
 
 
 def pytest_sessionstart(session):
@@ -30,12 +31,21 @@ def pytest_sessionfinish(session, exitstatus):
     passed = sum(1 for result in session.results.values() if result.passed)
     failed = sum(1 for result in session.results.values() if result.failed)
     print(f'There are {passed=} and {failed=} tests')
+
+    # Build execution summary information
     execution_summary = {
-        "total_number_of_test": len(session.results),
-        "passed_tests": passed,
-        "failed_test": failed
+        "total_number_of_test": ("Total number of tests", len(session.results)),
+        "passed_tests": ("Passed tests", passed),
+        "failed_test": ("Failed tests", failed)
 
     }
+
+    # Build Environment section information
+    environment_information = {
+        "Environment": os.getenv("test_env", default="test")
+    }
+
+    # Build test case details information
     test_results = []
     for result in session.results.values():
         test_results.append({
@@ -43,13 +53,19 @@ def pytest_sessionfinish(session, exitstatus):
                 "run_time": round(result.duration, 2),
                 "status": result.outcome
             })
+    now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+    # Build parameters dict to send to the jinja template
     parameters = {
-        "test_env": os.getenv("test_env", default="test"),
+        "title": f"Automated Test Execution Summary {now}",
+        "environment_information": environment_information,
         "execution_summary": execution_summary,
         "test_results": test_results
     }
     env = Environment(loader=FileSystemLoader('resources'))
     env.get_template("email_template.html", globals=parameters).stream(name='foo').dump('report.html')
+
+    
     # TODO: read the data from env.vars
     email_client = EmailClient(email_address="",
                                email_password="",
