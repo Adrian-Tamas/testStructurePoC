@@ -1,0 +1,61 @@
+<html>
+<body>
+<H1>Control Room Automated Test Execution Summary</H1>
+
+<H3> Test execution environment </H3>
+<div class="container-fluid">
+    <table id="environment" border="1" cellpadding="0" cellspacing="0" style="width: 40%" text-align="center">
+        <tbody>
+        <tr>
+            <th scope="row" style="width: 60%">Environment</th>
+            <td style="width: 40%">{{test_env}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<H3> Execution details </H3>
+<div class="container-fluid">
+    <table id="execution_details" border="1" cellpadding="0" cellspacing="0" style="width: 40%">
+        <tbody>
+        {% for key, value in execution_summary.items() %}
+        <tr>
+            <th scope="row">{{key}}</th>
+            <td> {{value}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<H3> Test case details </H3>
+<div class="container-fluid">
+    <table id="test_case_details" border="1" cellpadding="0" cellspacing="0" style="width: 50%">
+        <thead>
+        <tr>
+            <th scope="col" style="width: 80%">Test case details</th>
+            <th scope="col" style="width: 10%">Run time</th>
+            <th scope="col" style="width: 10%">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {%for test in test_results %}
+        {% if test["status"] == "passed" %}
+        <tr>
+            <th scope="row">{{test["description"]}}</th>
+            <td>{{test["run_time"]}}</td>
+            <td><div style="color:green">{{test["status"]}}</div></td>
+        </tr>
+        {% else %}
+        <tr>
+            <th scope="row">{{test["description"]}}</th>
+            <td>{{test["run_time"]}}</td>
+            <td><div style="color:red">{{test["status"]}}</div></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
