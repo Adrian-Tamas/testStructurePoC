@@ -45,7 +45,7 @@ def __generate_and_send_report_email(failed, passed, session):
     }
     # Build Environment section information
     environment_information = {
-        "Environment": os.getenv("test_env", default="test")
+        "Environment": os.getenv("test_env", default="test"),
     }
     # Build test case details information
     test_results = []
@@ -74,7 +74,7 @@ def __generate_and_send_report_email(failed, passed, session):
     with open("report.html", "rb") as email_html_content:
         content = email_html_content.read().decode("UTF-8")
         email_client.send_email(to=",".join(recipients),
-                                subject="Run summary",
+                                subject=f"Run summary {now}",
                                 message=content,
                                 file_path="report.html",
                                 attachment_name="ExecutionReport.zip")

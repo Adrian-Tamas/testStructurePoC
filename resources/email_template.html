@@ -4,10 +4,14 @@
 <div>
     <img src="http://www.nomura.com/emails/13/corporate-email-signaturegraphic.jpg" id="banner" alt="Nomura Banner" style="width: 75%"/>
 </div>
-<H3> Test execution environment </H3>
 <div class="container-fluid">
     <table id="environment" border="1" cellpadding="0" cellspacing="0" style="width: 75%" text-align="center">
         <tbody>
+            <tr>
+                <th colspan="2" scope="row" style="font-size: 14pt">
+                Test execution environment
+                </th>
+            </tr>
         {% for key, value in environment_information.items() %}
             <tr>
                 <th scope="row" style="width: 60%">{{key}}</th>
@@ -17,11 +21,15 @@
         </tbody>
     </table>
 </div>
-
-<H3> Execution details </H3>
+<br>
 <div class="container-fluid">
     <table id="execution_details" border="1" cellpadding="0" cellspacing="0" style="width: 75%">
         <tbody>
+            <tr>
+                <th colspan="2" scope="row" style="font-size: 14pt">
+                Execution details
+                </th>
+            </tr>
         {% for key, value in execution_summary.items() %}
         <tr>
             <th scope="row">{{value[0]}}</th>
@@ -31,11 +39,15 @@
         </tbody>
     </table>
 </div>
-
-<H3> Test case details </H3>
+<br>
 <div class="container-fluid">
     <table id="test_case_details" border="1" cellpadding="0" cellspacing="0" style="width: 75%">
         <thead>
+            <tr>
+                <th colspan="3" scope="row" style="font-size: 14pt">
+                Test case details
+                </th>
+            </tr>
         <tr>
             <th scope="col" style="width: 80%">Test case details</th>
             <th scope="col" style="width: 10%">Run time</th>
