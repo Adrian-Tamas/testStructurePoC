@@ -32,6 +32,10 @@ def pytest_sessionfinish(session, exitstatus):
     failed = sum(1 for result in session.results.values() if result.failed)
     print(f'There are {passed=} and {failed=} tests')
 
+    __generate_and_send_report_email(failed, passed, session)
+
+
+def __generate_and_send_report_email(failed, passed, session):
     # Build execution summary information
     execution_summary = {
         "total_number_of_test": ("Total number of tests", len(session.results)),
@@ -39,21 +43,18 @@ def pytest_sessionfinish(session, exitstatus):
         "failed_test": ("Failed tests", failed)
 
     }
-
     # Build Environment section information
     environment_information = {
         "Environment": os.getenv("test_env", default="test")
     }
-
     # Build test case details information
     test_results = []
     for result in session.results.values():
         test_results.append({
-                "description": session.test_names.get(result.nodeid, result.nodeid),
-                "run_time": round(result.duration, 2),
-                "status": result.outcome
-            })
-
+            "description": session.test_names.get(result.nodeid, result.nodeid),
+            "run_time": round(result.duration, 2),
+            "status": result.outcome
+        })
     # Build parameters dict to send to the jinja template
     now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     parameters = {
@@ -64,19 +65,16 @@ def pytest_sessionfinish(session, exitstatus):
     }
     env = Environment(loader=FileSystemLoader('resources'))
     env.get_template("email_template.html", globals=parameters).stream(name='foo').dump('report.html')
-
-
     # TODO: read the data from env.vars
     email_client = EmailClient(email_address="",
                                email_password="",
                                smtp_server="",
-                               port="465") #587 for StarTTLS
-
-    recipients = ["a@a.com", "b@b.com", "c@c.com"] # TODO: read this in from a config file
-
+                               port="465")  # 587 for StarTTLS
+    recipients = ["a@a.com", "b@b.com", "c@c.com"]  # TODO: read this in from a config file
     with open("report.html", "rb") as email_html_content:
-        email_client.send_email(to=recipients,
+        content = email_html_content.read().decode("UTF-8")
+        email_client.send_email(to=",".join(recipients),
                                 subject="Run summary",
-                                message=email_html_content,
+                                message=content,
                                 file_path="report.html",
                                 attachment_name="ExecutionReport.zip")

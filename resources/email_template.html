@@ -2,11 +2,11 @@
 <body>
 <H1>{{title}}</H1>
 <div>
-    <img src="http://www.nomura.com/emails/13/corporate-email-signaturegaphic.jpg" id="banner" alt="Nomura Banner"/>
+    <img src="http://www.nomura.com/emails/13/corporate-email-signaturegraphic.jpg" id="banner" alt="Nomura Banner" style="width: 75%"/>
 </div>
 <H3> Test execution environment </H3>
 <div class="container-fluid">
-    <table id="environment" border="1" cellpadding="0" cellspacing="0" style="width: 50%" text-align="center">
+    <table id="environment" border="1" cellpadding="0" cellspacing="0" style="width: 75%" text-align="center">
         <tbody>
         {% for key, value in environment_information.items() %}
             <tr>
@@ -20,7 +20,7 @@
 
 <H3> Execution details </H3>
 <div class="container-fluid">
-    <table id="execution_details" border="1" cellpadding="0" cellspacing="0" style="width: 50%">
+    <table id="execution_details" border="1" cellpadding="0" cellspacing="0" style="width: 75%">
         <tbody>
         {% for key, value in execution_summary.items() %}
         <tr>
@@ -34,7 +34,7 @@
 
 <H3> Test case details </H3>
 <div class="container-fluid">
-    <table id="test_case_details" border="1" cellpadding="0" cellspacing="0" style="width: 50%">
+    <table id="test_case_details" border="1" cellpadding="0" cellspacing="0" style="width: 75%">
         <thead>
         <tr>
             <th scope="col" style="width: 80%">Test case details</th>
