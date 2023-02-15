@@ -53,9 +53,9 @@ def pytest_sessionfinish(session, exitstatus):
                 "run_time": round(result.duration, 2),
                 "status": result.outcome
             })
-    now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
     # Build parameters dict to send to the jinja template
+    now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     parameters = {
         "title": f"Automated Test Execution Summary {now}",
         "environment_information": environment_information,
@@ -65,14 +65,17 @@ def pytest_sessionfinish(session, exitstatus):
     env = Environment(loader=FileSystemLoader('resources'))
     env.get_template("email_template.html", globals=parameters).stream(name='foo').dump('report.html')
 
-    
+
     # TODO: read the data from env.vars
     email_client = EmailClient(email_address="",
                                email_password="",
                                smtp_server="",
                                port="465") #587 for StarTTLS
+
+    recipients = ["a@a.com", "b@b.com", "c@c.com"] # TODO: read this in from a config file
+
     with open("report.html", "rb") as email_html_content:
-        email_client.send_email(to="",
+        email_client.send_email(to=recipients,
                                 subject="Run summary",
                                 message=email_html_content,
                                 file_path="report.html",
