@@ -1,0 +1,33 @@
+<html>
+<body>
+<div class="container-fluid">
+    <table id="data" border="1" style="width: 75%" text-align="center">
+        <tbody>
+            {% for column, data in df_differences.items() %}
+                <tr>
+                    <th colspan="3" scope="row" style="font-size: 14pt">
+                        {{column}}
+                    </th>
+                </tr>
+                <tr>
+                    <td style="font-size: 14pt"><b>{{reference_id}}</b></td>
+                    <td style="font-size: 14pt"><b>Expected</b></td>
+                    <td style="font-size: 14pt"><b>Actual</b></td>
+                </tr>
+                {% for id, expected_value in data["expected"].items() %}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{expected_value}}</td>
+                    <td>{{data["actual"][id]}}</td>
+                </tr>
+                {% endfor %}
+            <tr>
+                <td colspan="3">&nbsp;</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
