@@ -1,3 +1,4 @@
+import allure
 from jinja2 import Environment, FileSystemLoader
 from faker import Faker
 from pandas import pandas
@@ -17,16 +18,16 @@ def validate_data(expected_df, actual_df, reference_id):
 
     columns = df_isin_results.columns.values.tolist()
     differences = {}
-    for value in columns:
-        series = df_isin_results.index[df_isin_results[value] == False].tolist()
+    for column in columns:
+        series = df_isin_results.index[df_isin_results[column] == False].tolist()
         expected_values = {}
         actual_values = {}
         for index in series:
             ref_id = expected_df[reference_id].values[index]
-            expected_values[ref_id] = expected_df[value].values[index]
-            actual_values[actual_df[reference_id].values[index]] = actual_df[value].values[index]
+            expected_values[ref_id] = expected_df[column].values[index]
+            actual_values[actual_df[reference_id].values[index]] = actual_df[column].values[index]
         if expected_values:
-            differences[value] = {
+            differences[column] = {
                 "expected": expected_values,
                 "actual": actual_values
             }
